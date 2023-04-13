@@ -13,12 +13,12 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/Philipp15b/go-steam/v3/cryptoutil"
-	"github.com/Philipp15b/go-steam/v3/netutil"
-	"github.com/Philipp15b/go-steam/v3/protocol"
-	"github.com/Philipp15b/go-steam/v3/protocol/protobuf"
-	"github.com/Philipp15b/go-steam/v3/protocol/steamlang"
-	"github.com/Philipp15b/go-steam/v3/steamid"
+	"github.com/WirStaff/go-steam/cryptoutil"
+	"github.com/WirStaff/go-steam/netutil"
+	"github.com/WirStaff/go-steam/protocol"
+	"github.com/WirStaff/go-steam/protocol/protobuf"
+	"github.com/WirStaff/go-steam/protocol/steamlang"
+	"github.com/WirStaff/go-steam/steamid"
 )
 
 // Represents a client to the Steam network.

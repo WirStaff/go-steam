@@ -8,7 +8,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/Philipp15b/go-steam/v3/netutil"
+	"github.com/WirStaff/go-steam/netutil"
 )
 
 // Load initial server list from Steam Directory Web API.
