@@ -107,6 +107,14 @@ func (c *Client) SessionId() int32 {
 	return atomic.LoadInt32(&c.sessionId)
 }
 
+func (c *Client) SetSteamId(univerve steamlang.EUniverse, steamType steamlang.EAccountType) {
+	atomic.StoreUint64(&c.steamId, uint64(steamid.NewIdAdv(0, 0, int32(univerve), int32(steamType))))
+}
+
+func (c *Client) SetSessionId() {
+	atomic.StoreInt32(&c.sessionId, 0)
+}
+
 func (c *Client) Connected() bool {
 	c.mutex.RLock()
 	defer c.mutex.RUnlock()
