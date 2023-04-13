@@ -34,12 +34,7 @@ type Client struct {
 	steamId      uint64
 	currentJobId uint64
 
-	Auth          *Auth
-	Social        *Social
-	Web           *Web
-	Notifications *Notifications
-	Trading       *Trading
-	GC            *GameCoordinator
+	GC *GameCoordinator
 
 	events        chan interface{}
 	handlers      []PacketHandler
@@ -65,23 +60,6 @@ func NewClient() *Client {
 		events:   make(chan interface{}, 3),
 		writeBuf: new(bytes.Buffer),
 	}
-
-	fmt.Println("Client")
-
-	client.Auth = &Auth{client: client}
-	client.RegisterPacketHandler(client.Auth)
-
-	client.Social = newSocial(client)
-	client.RegisterPacketHandler(client.Social)
-
-	client.Web = &Web{client: client}
-	client.RegisterPacketHandler(client.Web)
-
-	client.Notifications = newNotifications(client)
-	client.RegisterPacketHandler(client.Notifications)
-
-	client.Trading = &Trading{client: client}
-	client.RegisterPacketHandler(client.Trading)
 
 	client.GC = newGC(client)
 	client.RegisterPacketHandler(client.GC)
