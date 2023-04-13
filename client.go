@@ -66,6 +66,8 @@ func NewClient() *Client {
 		writeBuf: new(bytes.Buffer),
 	}
 
+	fmt.Println("Client")
+
 	client.Auth = &Auth{client: client}
 	client.RegisterPacketHandler(client.Auth)
 
