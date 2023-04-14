@@ -259,7 +259,7 @@ func (c *Client) writeLoop() {
 	}
 }
 
-func (c *Client) heartbeatLoop(seconds time.Duration) {
+func (c *Client) HeartbeatLoop(seconds time.Duration) {
 	if c.heartbeat != nil {
 		c.heartbeat.Stop()
 	}
