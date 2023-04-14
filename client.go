@@ -115,10 +115,6 @@ func (c *Client) SetSteamId(steamId uint64) {
 	atomic.StoreUint64(&c.steamId, steamId)
 }
 
-func (c *Client) SetSteamIdForUser() {
-
-}
-
 func (c *Client) SetSessionId(id int32) {
 	atomic.StoreInt32(&c.sessionId, id)
 }
