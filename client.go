@@ -107,12 +107,16 @@ func (c *Client) SessionId() int32 {
 	return atomic.LoadInt32(&c.sessionId)
 }
 
-func (c *Client) SetSteamIdForAuth(univerve steamlang.EUniverse, steamType steamlang.EAccountType) {
-	atomic.StoreUint64(&c.steamId, uint64(steamid.NewIdAdv(0, 0, int32(univerve), int32(steamType))))
+func (c *Client) SetSteamIdForAuth(instance uint32, univerve steamlang.EUniverse, steamType steamlang.EAccountType) {
+	atomic.StoreUint64(&c.steamId, uint64(steamid.NewIdAdv(0, instance, int32(univerve), int32(steamType))))
 }
 
 func (c *Client) SetSteamId(steamId uint64) {
 	atomic.StoreUint64(&c.steamId, steamId)
+}
+
+func (c *Client) SetSteamIdForUser() {
+
 }
 
 func (c *Client) SetSessionId(id int32) {
