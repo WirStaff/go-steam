@@ -130,12 +130,12 @@ func (c *Client) Connected() bool {
 // This method tries to use an address from the Steam Directory and falls
 // back to the built-in server list if the Steam Directory can't be reached.
 // If you want to connect to a specific server, use `ConnectTo`.
-func (c *Client) Connect() (*netutil.PortAddr, error) {
+func (c *Client) Connect(cellId uint32) (*netutil.PortAddr, error) {
 	var server *netutil.PortAddr
 
 	// try to initialize the directory cache
 	if !steamDirectoryCache.IsInitialized() {
-		_ = steamDirectoryCache.Initialize()
+		_ = steamDirectoryCache.Initialize(cellId)
 	}
 	if steamDirectoryCache.IsInitialized() {
 		server = steamDirectoryCache.GetRandomCM()
