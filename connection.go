@@ -31,9 +31,9 @@ type tcpConnection struct {
 }
 
 type ProxyConnection struct {
-	addr     string
-	username string
-	password string
+	Addr     string
+	Username string
+	Password string
 }
 
 func dialTCP(laddr, raddr *net.TCPAddr, p *ProxyConnection) (*tcpConnection, error) {
@@ -41,9 +41,9 @@ func dialTCP(laddr, raddr *net.TCPAddr, p *ProxyConnection) (*tcpConnection, err
 	var err error
 
 	if p != nil {
-		auth := proxy.Auth{User: p.username, Password: p.password}
+		auth := proxy.Auth{User: p.Username, Password: p.Password}
 
-		dailer, _ := proxy.SOCKS5("tcp", p.addr, &auth, &net.Dialer{
+		dailer, _ := proxy.SOCKS5("tcp", p.Addr, &auth, &net.Dialer{
 			Timeout:   60 * time.Second,
 			KeepAlive: 360 * time.Second,
 		})
