@@ -130,7 +130,7 @@ func (c *Client) Connected() bool {
 // This method tries to use an address from the Steam Directory and falls
 // back to the built-in server list if the Steam Directory can't be reached.
 // If you want to connect to a specific server, use `ConnectTo`.
-func (c *Client) Connect(cellId uint32) (*netutil.PortAddr, error) {
+func (c *Client) Connect(cellId uint32, proxy *ProxyConnection) (*netutil.PortAddr, error) {
 	var server *netutil.PortAddr
 
 	// try to initialize the directory cache
@@ -143,23 +143,23 @@ func (c *Client) Connect(cellId uint32) (*netutil.PortAddr, error) {
 		server = GetRandomCM()
 	}
 
-	err := c.ConnectTo(server)
+	err := c.ConnectTo(server, proxy)
 	return server, err
 }
 
 // Connects to a specific server.
 // You may want to use one of the `GetRandom*CM()` functions in this package.
 // If this client is already connected, it is disconnected first.
-func (c *Client) ConnectTo(addr *netutil.PortAddr) error {
-	return c.ConnectToBind(addr, nil)
+func (c *Client) ConnectTo(addr *netutil.PortAddr, proxy *ProxyConnection) error {
+	return c.ConnectToBind(addr, nil, proxy)
 }
 
 // Connects to a specific server, and binds to a specified local IP
 // If this client is already connected, it is disconnected first.
-func (c *Client) ConnectToBind(addr *netutil.PortAddr, local *net.TCPAddr) error {
+func (c *Client) ConnectToBind(addr *netutil.PortAddr, local *net.TCPAddr, proxy *ProxyConnection) error {
 	c.Disconnect()
 
-	conn, err := dialTCP(local, addr.ToTCPAddr())
+	conn, err := dialTCP(local, addr.ToTCPAddr(), proxy)
 	if err != nil {
 		c.Fatalf("Connect failed: %v", err)
 		return err

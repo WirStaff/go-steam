@@ -5,12 +5,13 @@ import (
 	"crypto/cipher"
 	"encoding/binary"
 	"fmt"
+	"github.com/WirStaff/go-steam/cryptoutil"
+	"github.com/WirStaff/go-steam/protocol"
+	"golang.org/x/net/proxy"
 	"io"
 	"net"
 	"sync"
-
-	"github.com/WirStaff/go-steam/cryptoutil"
-	"github.com/WirStaff/go-steam/protocol"
+	"time"
 )
 
 type connection interface {
@@ -24,13 +25,34 @@ type connection interface {
 const tcpConnectionMagic uint32 = 0x31305456 // "VT01"
 
 type tcpConnection struct {
-	conn        *net.TCPConn
+	conn        net.Conn
 	ciph        cipher.Block
 	cipherMutex sync.RWMutex
 }
 
-func dialTCP(laddr, raddr *net.TCPAddr) (*tcpConnection, error) {
-	conn, err := net.DialTCP("tcp", laddr, raddr)
+type ProxyConnection struct {
+	addr     string
+	username string
+	password string
+}
+
+func dialTCP(laddr, raddr *net.TCPAddr, p *ProxyConnection) (*tcpConnection, error) {
+	var conn net.Conn
+	var err error
+
+	if p != nil {
+		auth := proxy.Auth{User: p.username, Password: p.password}
+
+		dailer, _ := proxy.SOCKS5("tcp", p.addr, &auth, &net.Dialer{
+			Timeout:   60 * time.Second,
+			KeepAlive: 360 * time.Second,
+		})
+
+		conn, err = dailer.Dial("tcp", raddr.String())
+	} else {
+		conn, err = net.DialTCP("tcp", laddr, raddr)
+	}
+
 	if err != nil {
 		return nil, err
 	}
