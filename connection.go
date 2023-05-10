@@ -44,7 +44,7 @@ func dialTCP(laddr, raddr *net.TCPAddr, p *ProxyConnection) (*tcpConnection, err
 		auth := proxy.Auth{User: p.Username, Password: p.Password}
 
 		dailer, _ := proxy.SOCKS5("tcp", p.Addr, &auth, &net.Dialer{
-			Timeout:   60 * time.Second,
+			Timeout:   5 * time.Second,
 			KeepAlive: 360 * time.Second,
 		})
 
