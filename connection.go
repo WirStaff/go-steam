@@ -50,7 +50,9 @@ func dialTCP(laddr, raddr *net.TCPAddr, p *ProxyConnection) (*tcpConnection, err
 
 		conn, err = dailer.Dial("tcp", raddr.String())
 	} else {
-		conn, err = net.DialTCP("tcp", laddr, raddr)
+		//conn, err = net.DialTCP("tcp", laddr, raddr)
+		d := net.Dialer{Timeout: 5 * time.Second}
+		conn, err := d.Dial("tcp", raddr.String())
 	}
 
 	if err != nil {
